@@ -10,6 +10,7 @@ class App {
   }
 
   async init() {
+    this.clear();
     await this.load();
     this.run();
   }
