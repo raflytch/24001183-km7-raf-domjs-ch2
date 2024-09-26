@@ -3,10 +3,10 @@ class App {
     this.clearButton = document.getElementById("clear-btn");
     this.loadButton = document.getElementById("load-btn");
     this.carContainerElement = document.getElementById("cars-container");
-    this.tipeDriver = document.getElementById("tipeDriver");
-    this.tanggal = document.getElementById("tanggal");
-    this.waktuJemput = document.getElementById("waktuJemput");
-    this.jumlahPenumpang = document.getElementById("jumlahPenumpang");
+    this.driverType = document.getElementById("tipeDriver");
+    this.date = document.getElementById("tanggal");
+    this.pickupTime = document.getElementById("waktuJemput");
+    this.passengerCount = document.getElementById("jumlahPenumpang");
   }
 
   async init() {
@@ -31,43 +31,40 @@ class App {
 
   async loadFilter() {
     const cars = await Binar.listCars((data) => {
-      const tanggalJemputData = new Date(data.availableAt).getTime();
-      const tanggal = new Date(
-        `${this.tanggal.value} ${this.waktuJemput.value}`
+      const pickupDateData = new Date(data.availableAt).getTime();
+      const date = new Date(
+        `${this.date.value} ${this.pickupTime.value}`
       ).getTime();
-      const checkWaktu = tanggalJemputData >= tanggal;
+      const checkTime = pickupDateData >= date;
       const availableAt =
-        this.tipeDriver.value === "true" && data.available ? true : false;
+        this.driverType.value === "true" && data.available ? true : false;
       const notAvailableAt =
-        this.tipeDriver.value === "false" && !data.available ? true : false;
-      const penumpang = data.capacity >= this.jumlahPenumpang.value;
+        this.driverType.value === "false" && !data.available ? true : false;
+      const passengers = data.capacity >= this.passengerCount.value;
       if (
-        this.tipeDriver.value !== "default" &&
-        this.tanggal.value !== "" &&
-        this.waktuJemput.value !== "false" &&
-        this.jumlahPenumpang.value >= 0
+        this.driverType.value !== "default" &&
+        this.date.value !== "" &&
+        this.pickupTime.value !== "false" &&
+        this.passengerCount.value >= 0
       ) {
-        return (availableAt || notAvailableAt) && checkWaktu && penumpang;
+        return (availableAt || notAvailableAt) && checkTime && passengers;
       } else if (
-        this.tipeDriver.value !== "default" &&
-        this.jumlahPenumpang.value > 0
+        this.driverType.value !== "default" &&
+        this.passengerCount.value > 0
       ) {
-        return (availableAt || notAvailableAt) && penumpang;
+        return (availableAt || notAvailableAt) && passengers;
       } else if (
-        this.tanggal.value !== "" &&
-        this.waktuJemput.value !== "false" &&
-        this.jumlahPenumpang.value > 0
+        this.date.value !== "" &&
+        this.pickupTime.value !== "false" &&
+        this.passengerCount.value > 0
       ) {
-        return checkWaktu && penumpang;
-      } else if (
-        this.tanggal.value !== "" &&
-        this.waktuJemput.value !== "false"
-      ) {
-        return checkWaktu;
-      } else if (this.tipeDriver.value !== "default") {
+        return checkTime && passengers;
+      } else if (this.date.value !== "" && this.pickupTime.value !== "false") {
+        return checkTime;
+      } else if (this.driverType.value !== "default") {
         return availableAt || notAvailableAt;
       } else {
-        return penumpang;
+        return passengers;
       }
     });
     console.log(cars);

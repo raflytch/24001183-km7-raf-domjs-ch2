@@ -1,24 +1,24 @@
-const http = require("http");
-const fs = require("fs");
-const path = require("path");
-const url = require("url");
-const PUBLIC_DIRECTORY = path.join(__dirname, "../public");
-const PORT = 8000;
+const httpServer = require("http");
+const fileSystem = require("fs");
+const filePath = require("path");
+const requestUrl = require("url");
+const PUBLIC_DIR = filePath.join(__dirname, "../public");
+const SERVER_PORT = 8000;
 
-const server = (req, res) => {
-  if (req.url === "/") {
-    req.url = "/index.html";
-  } else if (req.url === "/cars") {
-    req.url = "/rent.find.car.html";
+const requestHandler = (request, response) => {
+  if (request.url === "/") {
+    request.url = "/index.html";
+  } else if (request.url === "/cars") {
+    request.url = "/rent.find.car.html";
   } else {
-    req.url = req.url;
+    request.url = request.url;
   }
-  const parseURL = url.parse(req.url);
-  const pathName = `${parseURL.pathname}`;
-  const extension = path.parse(pathName).ext;
-  const absolutePath = path.join(PUBLIC_DIRECTORY, pathName);
+  const parsedURL = requestUrl.parse(request.url);
+  const pathName = `${parsedURL.pathname}`;
+  const fileExtension = filePath.parse(pathName).ext;
+  const absoluteFilePath = filePath.join(PUBLIC_DIR, pathName);
 
-  const contentTypes = {
+  const contentTypeMap = {
     ".css": "text/css",
     ".png": "image/png",
     ".svg": "image/svg+xml",
@@ -26,16 +26,19 @@ const server = (req, res) => {
     ".js": "text/javascript",
   };
 
-  fs.readFile(absolutePath, (err, data) => {
-    if (err) {
-      res.statusCode = 500;
-      res.end("File not found ...");
+  fileSystem.readFile(absoluteFilePath, (error, data) => {
+    if (error) {
+      response.statusCode = 500;
+      response.end("File not found ...");
     } else {
-      res.setHeader("Content-Type", contentTypes[extension] || "text/plain");
-      res.end(data);
+      response.setHeader(
+        "Content-Type",
+        contentTypeMap[fileExtension] || "text/plain"
+      );
+      response.end(data);
     }
   });
 };
 
-http.createServer(server).listen(PORT);
-console.log(`Server is running ... PORT : localhost:${PORT}`);
+httpServer.createServer(requestHandler).listen(SERVER_PORT);
+console.log(`Server is running ... PORT : localhost:${SERVER_PORT}`);
