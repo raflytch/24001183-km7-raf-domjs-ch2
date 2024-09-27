@@ -333,3 +333,44 @@ body {
     top: 15%;
   }
 }
+
+@media (max-width: 1199px) {
+  .cars .card {
+    width: 280px;
+  }
+  .cars .card .card-img-top {
+    width: 260px;
+  }
+}
+
+@media (max-width: 992px) {
+  .cars .card {
+    width: 240px;
+  }
+  .cars .card .card-img-top {
+    width: 220px;
+    height: 150px;
+  }
+}
+
+@media (max-width: 768px) {
+  .cars .card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .cars .card .card-img-top {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+@media (max-width: 576px) {
+  .cars .card {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  .cars .card .card-img-top {
+    width: 100%;
+    height: 180px;
+  }
+}
