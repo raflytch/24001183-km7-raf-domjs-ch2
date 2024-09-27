@@ -43,7 +43,7 @@ class Car {
     return new Intl.NumberFormat("id-ID", {
       style: "currency",
       currency: "IDR",
-      minimumFractionDigits: 0, // Menghilangkan desimal
+      minimumFractionDigits: 0,
     }).format(value);
   }
 
