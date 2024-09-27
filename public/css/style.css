@@ -23,13 +23,19 @@ main {
   color: #232323;
 }
 
-.btn-utama {
+.btn-main {
   background-color: #5cb85f;
   color: #ffff;
   border-radius: 0;
 }
 
-.btn-utama:hover {
+a .btn .btn-main {
+  background-color: #5cb85f;
+  color: #ffff;
+  border-radius: 0;
+}
+
+.btn-main:hover {
   color: #5cb85f;
   background-color: #ffffff;
   border: 1px solid #5cb85f;
