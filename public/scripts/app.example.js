@@ -7,7 +7,27 @@ class App {
     this.date = document.getElementById("tanggal");
     this.pickupTime = document.getElementById("waktuJemput");
     this.passengerCount = document.getElementById("jumlahPenumpang");
+
+    this.addEventListeners();
   }
+
+  addEventListeners() {
+    this.driverType.addEventListener("change", this.checkFormValidity);
+    this.date.addEventListener("input", this.checkFormValidity);
+    this.pickupTime.addEventListener("change", this.checkFormValidity);
+  }
+
+  checkFormValidity = () => {
+    if (
+      this.driverType.value !== "default" &&
+      this.date.value !== "" &&
+      this.pickupTime.value !== "false"
+    ) {
+      this.loadButton.disabled = false;
+    } else {
+      this.loadButton.disabled = true;
+    }
+  };
 
   async init() {
     this.clear();
